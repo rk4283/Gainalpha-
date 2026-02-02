@@ -118,6 +118,26 @@
   }
 </script>
 <script>
+function generateSignal() {
+  // Demo logic (random but realistic)
+  const rsi = Math.floor(Math.random() * 100);
+  const trend = Math.random() > 0.5 ? "UP" : "DOWN";
+
+  let signalBox = document.getElementById("signalBox");
+
+  if (rsi < 35 && trend === "UP") {
+    signalBox.innerHTML = "🟢 BUY 🔼<br>RSI Oversold + Uptrend";
+    signalBox.className = "signal-box buy";
+  } else if (rsi > 65 && trend === "DOWN") {
+    signalBox.innerHTML = "🔴 SELL 🔽<br>RSI Overbought + Downtrend";
+    signalBox.className = "signal-box sell";
+  } else {
+    signalBox.innerHTML = "⚪ NO TRADE<br>Wait for confirmation";
+    signalBox.className = "signal-box";
+  }
+}
+</script>
+
   // ===== DEMO PRICE DATA (later API se aayega) =====
   let prices = [
     43000, 43120, 43200, 43150, 43300,
