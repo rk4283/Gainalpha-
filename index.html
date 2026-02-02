@@ -117,6 +117,52 @@
     }
   }
 </script>
+<script>
+  // ===== DEMO PRICE DATA (later API se aayega) =====
+  let prices = [
+    43000, 43120, 43200, 43150, 43300,
+    43420, 43510, 43400, 43650, 43720
+  ];
+
+  function EMA(period, data) {
+    let k = 2 / (period + 1);
+    let ema = data[0];
+    for (let i = 1; i < data.length; i++) {
+      ema = data[i] * k + ema * (1 - k);
+    }
+    return ema;
+  }
+
+  function RSI(data, period = 14) {
+    let gains = 0, losses = 0;
+    for (let i = 1; i < data.length; i++) {
+      let diff = data[i] - data[i - 1];
+      if (diff >= 0) gains += diff;
+      else losses -= diff;
+    }
+    let rs = gains / (losses || 1);
+    return 100 - (100 / (1 + rs));
+  }
+
+  function generateSignal() {
+    let ema9 = EMA(9, prices);
+    let ema21 = EMA(21, prices);
+    let rsi = RSI(prices);
+
+    let box = document.getElementById("signalBox");
+
+    if (ema9 > ema21 && rsi > 55) {
+      box.innerHTML = "🟢 BUY SIGNAL";
+      box.className = "signal-box buy";
+    } else if (ema9 < ema21 && rsi < 45) {
+      box.innerHTML = "🔴 SELL SIGNAL";
+      box.className = "signal-box sell";
+    } else {
+      box.innerHTML = "⚪ NO TRADE";
+      box.className = "signal-box";
+    }
+  }
+</script>
 
 </body>
 </html>
